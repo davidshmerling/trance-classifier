@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+.venv/
+venv/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Do not upload secrets
+.env
+service_account/
+service_account/*
+*.json
+*.pem
+*.p12
+*service*account*
+*google*credentials*
+
+# Audio + Images
+*.mp3
+*.wav
+*.png
+*.jpg
+*.jpeg
+
+# Generated data
+tracks/
+images/
+tmp/
+tmp_test/
+
+# Models
+models/v*/
+models/best_model_tmp.h5
+models/*.bak
+models/*.tmp
+
+# Keep latest.h5 only
+!models/latest.h5
