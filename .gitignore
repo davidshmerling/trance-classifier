@@ -2,7 +2,6 @@
 __pycache__/
 *.pyc
 git_acp.py
-trance_classifier_spec.txt
 
 
 # Virtual env
@@ -34,6 +33,7 @@ service_account/*
 # Generated data
 tracks/
 data/
+data_cache/
 tmp/
 tmp_test/
 
