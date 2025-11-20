@@ -1,6 +1,7 @@
 # Python
 __pycache__/
 *.pyc
+git_acp.py
 
 # Virtual env
 .venv/
@@ -30,7 +31,7 @@ service_account/*
 
 # Generated data
 tracks/
-images/
+data/
 tmp/
 tmp_test/
 

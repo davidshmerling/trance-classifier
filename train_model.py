@@ -13,7 +13,7 @@ from sklearn.utils.class_weight import compute_class_weight
 layers = tf.keras.layers
 models = tf.keras.models
 
-IMAGES_DIR = "images"
+DATA_DIR = "data"
 MODELS_DIR = "models"
 LATEST_MODEL = os.path.join(MODELS_DIR, "latest.h5")
 
@@ -25,246 +25,226 @@ VALID_GENRES = ["goa", "psy", "dark"]
 
 
 # -------------------------------------------------
-# טעינת התמונות
+# LOAD DATA (SAFE – no tf.numpy_function)
 # -------------------------------------------------
 def load_dataset():
-    image_paths = []
+    img_list = []
+    emb_list = []
     labels = []
 
     for genre in VALID_GENRES:
-        genre_path = Path(IMAGES_DIR) / genre
+        genre_path = Path(DATA_DIR) / genre
         if not genre_path.exists():
             continue
 
         for root, dirs, files in os.walk(genre_path):
             for f in files:
-                if f.lower().endswith(".png"):
+                if f.endswith(".png"):
                     img_path = os.path.join(root, f)
-                    image_paths.append(img_path)
+                    emb_path = img_path.replace(".png", ".npy")
+                    if not os.path.exists(emb_path):
+                        continue
+
+                    # Load image
+                    img = Image.open(img_path).convert("RGB").resize(IMG_SIZE)
+                    img = np.array(img, dtype=np.float32) / 255.0
+
+                    # Load embedding
+                    emb = np.load(emb_path).astype(np.float32)
+
+                    img_list.append(img)
+                    emb_list.append(emb)
                     labels.append(genre)
 
-    # המרת תמונות ל-Numpy
-    X = []
-    for path in image_paths:
-        img = Image.open(path).convert("RGB").resize(IMG_SIZE)
-        X.append(np.array(img) / 255.0)
+    print(f"✔ Loaded {len(img_list)} samples")
 
-    X = np.array(X)
+    # Convert to numpy
+    X_img = np.array(img_list, dtype=np.float32)
+    X_emb = np.array(emb_list, dtype=np.float32)
 
-    # המרת label ל-OneHot
+    # Labels
     genre_to_idx = {g: i for i, g in enumerate(VALID_GENRES)}
-    y_idx = np.array([genre_to_idx[g] for g in labels])
+    y_idx = np.array([genre_to_idx[g] for g in labels], dtype=np.int32)
     y = tf.keras.utils.to_categorical(y_idx, num_classes=len(VALID_GENRES))
 
-    # ערבוב + פיצול
-    indices = np.arange(len(X))
-    np.random.shuffle(indices)
-    X, y, y_idx = X[indices], y[indices], y_idx[indices]
+    # Shuffle
+    idx = np.arange(len(X_img))
+    np.random.shuffle(idx)
+    X_img = X_img[idx]
+    X_emb = X_emb[idx]
+    y = y[idx]
+    y_idx = y_idx[idx]
 
-    val_size = int(0.2 * len(X))
-    X_train, y_train = X[val_size:], y[val_size:]
-    X_val, y_val = X[:val_size], y[:val_size]
+    # Split 80/20
+    val_size = int(0.2 * len(X_img))
 
-    y_train_idx = y_idx[val_size:]  # נשתמש לזה לחישוב class weights
+    X_img_train = X_img[val_size:]
+    X_emb_train = X_emb[val_size:]
+    y_train = y[val_size:]
+    y_train_idx = y_idx[val_size:]
 
-    return X_train, y_train, y_train_idx, X_val, y_val
+    X_img_val = X_img[:val_size]
+    X_emb_val = X_emb[:val_size]
+    y_val = y[:val_size]
+
+    return (
+        X_img_train, X_emb_train, y_train, y_train_idx,
+        X_img_val, X_emb_val, y_val
+    )
 
 
 # -------------------------------------------------
-# בניית המודל - V2
+# MODEL
 # -------------------------------------------------
 def build_model(num_classes):
 
-    # הרחבות לתמונות (שיפור דיוק)
-    data_aug = models.Sequential([
-        layers.RandomFlip("horizontal"),
-        layers.RandomRotation(0.1),
-        layers.RandomZoom(0.1),
-    ])
+    # Image input
+    img_input = layers.Input(shape=(IMG_SIZE[0], IMG_SIZE[1], 3))
 
-    # EfficientNetB0 בסיסי
-    base = tf.keras.applications.EfficientNetB0(
-        include_top=False,
-        weights="imagenet",
-        input_shape=(IMG_SIZE[0], IMG_SIZE[1], 3)
-    )
+    x = layers.Conv2D(32, (3, 3), activation="relu", padding="same")(img_input)
+    x = layers.MaxPooling2D()(x)
 
-    # Fine-Tuning עדין — משחררים רק 20 שכבות אחרונות
-    base.trainable = True
-    for layer in base.layers[:-20]:
-        layer.trainable = False
+    x = layers.Conv2D(64, (3, 3), activation="relu", padding="same")(x)
+    x = layers.MaxPooling2D()(x)
 
-    inputs = layers.Input(shape=(IMG_SIZE[0], IMG_SIZE[1], 3))
-    x = data_aug(inputs)
-    x = base(x, training=False)  # יציבות ל-BatchNorm
-    x = layers.GlobalAveragePooling2D()(x)
-    x = layers.Dropout(0.25)(x)
+    x = layers.Conv2D(128, (3, 3), activation="relu", padding="same")(x)
+    x = layers.MaxPooling2D()(x)
 
-    # ⭐ שינוי מרכזי: sigmoid במקום softmax
-    outputs = layers.Dense(num_classes, activation="sigmoid")(x)
+    # CRNN reshape
+    shape = x.shape
+    time_steps = shape[2]
+    features = shape[1] * shape[3]
 
-    model = models.Model(inputs, outputs)
+    x = layers.Reshape((time_steps, features))(x)
+    x = layers.GRU(128, return_sequences=False)(x)
+    x = layers.Dropout(0.3)(x)
 
-    # ⭐ שינוי מרכזי: binary_crossentropy + מטריקות מותאמות
+    img_vec = x
+
+    # Embedding input (length = 58)
+    emb_input = layers.Input(shape=(58,))
+    e = layers.Dense(64, activation="relu")(emb_input)
+    e = layers.Dense(32, activation="relu")(e)
+    emb_vec = e
+
+    # Merge
+    combined = layers.Concatenate()([img_vec, emb_vec])
+
+    out = layers.Dense(64, activation="relu")(combined)
+    out = layers.Dense(num_classes, activation="softmax")(out)
+
+    model = models.Model(inputs=[img_input, emb_input], outputs=out)
+
     model.compile(
         optimizer=tf.keras.optimizers.Adam(1e-4),
-        loss="binary_crossentropy",
-        metrics=[
-            tf.keras.metrics.BinaryAccuracy(name="binary_accuracy", threshold=0.5),
-            tf.keras.metrics.Precision(name="precision", thresholds=0.5),
-            tf.keras.metrics.Recall(name="recall", thresholds=0.5)
-        ]
+        loss="categorical_crossentropy",
+        metrics=["accuracy"]
     )
 
+    model.summary()
     return model
 
 
 # -------------------------------------------------
-# שמירת מודל לפי גרסאות
+# SAVE MODEL
 # -------------------------------------------------
 def save_versioned_model(model):
     os.makedirs(MODELS_DIR, exist_ok=True)
 
-    # מציאת המספר הבא של הגרסה (v1, v2, v3...)
     versions = [
         int(f.name.replace("v", ""))
         for f in Path(MODELS_DIR).glob("v*")
         if f.is_dir() and f.name.replace("v", "").isdigit()
     ]
-    next_version = (max(versions) + 1) if versions else 1
+    next_v = (max(versions) + 1) if versions else 1
 
-    # יצירת תיקייה לגרסה
-    version_dir = Path(MODELS_DIR) / f"v{next_version}"
+    version_dir = Path(MODELS_DIR) / f"v{next_v}"
     version_dir.mkdir(parents=True, exist_ok=True)
 
-    # שמירת המודל
     model_path = version_dir / "model.h5"
     model.save(model_path)
-    print(f"✔ מודל נשמר בתיקייה: {model_path}")
-
-    # עדכון latest.h5 מחוץ לתיקיות הגרסאות
     shutil.copy(model_path, LATEST_MODEL)
-    print(f"✔ נשמר גם כמודל האחרון: {LATEST_MODEL}")
 
     return version_dir
 
 
 # -------------------------------------------------
-# ניתוח תוצאות ושמירה בתיקיית הגרסה
+# ANALYSIS
 # -------------------------------------------------
-def analyze_results(model, history, X_val, y_val, version_dir):
-
-    print("\n🔍 מבצע ניתוח תוצאות...\n")
-
+def analyze_results(model, history, X_img_val, X_emb_val, y_val, version_dir):
     analysis_dir = version_dir / "analysis"
     analysis_dir.mkdir(parents=True, exist_ok=True)
 
-    # תחזיות
     y_true = np.argmax(y_val, axis=1)
+    y_pred = np.argmax(model.predict([X_img_val, X_emb_val]), axis=1)
 
-    # כאן עדיין נשתמש ב-argmax כי יש לנו לייבל יחיד לכל דוגמה
-    y_pred_proba = model.predict(X_val)
-    y_pred = np.argmax(y_pred_proba, axis=1)
-
-    # Confusion Matrix
     cm = confusion_matrix(y_true, y_pred)
-    plt.figure(figsize=(6, 5))
+    plt.figure(figsize=(6,5))
     sns.heatmap(cm, annot=True, fmt="d",
                 xticklabels=VALID_GENRES,
-                yticklabels=VALID_GENRES,
-                cmap="Blues")
-    plt.title("Confusion Matrix")
-    plt.tight_layout()
+                yticklabels=VALID_GENRES)
     plt.savefig(analysis_dir / "confusion_matrix.png")
     plt.close()
 
-    # Classification Report
     report = classification_report(
-        y_true, y_pred,
-        target_names=VALID_GENRES,
-        digits=3
+        y_true, y_pred, target_names=VALID_GENRES, digits=3
     )
-    with open(analysis_dir / "classification_report.txt", "w") as f:
+    with open(analysis_dir / "report.txt", "w") as f:
         f.write(report)
 
-    # Accuracy / Binary Accuracy גרף
-    if "binary_accuracy" in history.history:
-        plt.plot(history.history['binary_accuracy'], label='Train Binary Acc')
-        plt.plot(history.history['val_binary_accuracy'], label='Val Binary Acc')
-        title = "Binary Accuracy Over Epochs"
-    elif "accuracy" in history.history:
-        plt.plot(history.history['accuracy'], label='Train Accuracy')
-        plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
-        title = "Accuracy Over Epochs"
-    else:
-        title = "Accuracy Over Epochs"
-
-    plt.legend()
-    plt.grid()
-    plt.title(title)
+    plt.plot(history.history["accuracy"], label="Train")
+    plt.plot(history.history["val_accuracy"], label="Val")
+    plt.legend(); plt.grid()
     plt.savefig(analysis_dir / "accuracy.png")
     plt.close()
 
-    # Loss גרף
-    plt.plot(history.history['loss'], label='Train Loss')
-    plt.plot(history.history['val_loss'], label='Validation Loss')
-    plt.legend()
-    plt.grid()
-    plt.title("Loss Over Epochs")
+    plt.plot(history.history["loss"], label="Train")
+    plt.plot(history.history["val_loss"], label="Val")
+    plt.legend(); plt.grid()
     plt.savefig(analysis_dir / "loss.png")
     plt.close()
 
-    print(f"📁 כל הניתוחים נשמרו בתיקייה: {analysis_dir}\n")
-
 
 # -------------------------------------------------
-# תהליך האימון - V2
+# TRAINING
 # -------------------------------------------------
 def train_model():
-    print("\n============== התחלת אימון (גרסה 2) ==============\n")
-    t0 = time.time()
+    print("============== Training ==============")
 
-    X_train, y_train, y_train_idx, X_val, y_val = load_dataset()
-    print(f"✔ נטען: {len(X_train)} אימון | {len(X_val)} ולידציה\n")
+    X_img_train, X_emb_train, y_train, y_train_idx, \
+    X_img_val, X_emb_val, y_val = load_dataset()
 
-    # חישוב class weights מאוזנים
-    class_weights_arr = compute_class_weight(
+    print(f"Train samples = {len(X_img_train)}  |  Val = {len(X_img_val)}")
+
+    cw = compute_class_weight(
         class_weight='balanced',
         classes=np.unique(y_train_idx),
         y=y_train_idx
     )
-    class_weights = {i: w for i, w in enumerate(class_weights_arr)}
-    print("⚖ class weights:", class_weights, "\n")
+    class_weights = {i: float(w) for i, w in enumerate(cw)}
+    print("Class weights:", class_weights)
 
     model = build_model(num_classes=len(VALID_GENRES))
 
     callbacks = [
         tf.keras.callbacks.EarlyStopping(
-            patience=4, restore_best_weights=True, monitor='val_loss'
-        ),
-        tf.keras.callbacks.ModelCheckpoint(
-            "best_model_tmp.h5", monitor='val_loss', save_best_only=True
+            patience=4, restore_best_weights=True, monitor="val_loss"
         )
     ]
 
     history = model.fit(
-        X_train, y_train,
-        validation_data=(X_val, y_val),
+        [X_img_train, X_emb_train], y_train,
+        validation_data=([X_img_val, X_emb_val], y_val),
         epochs=EPOCHS,
         batch_size=BATCH_SIZE,
-        callbacks=callbacks,
-        class_weight=class_weights
+        class_weight=class_weights,
+        callbacks=callbacks
     )
 
-    # שמירת המודל לתיקייה vX
     version_dir = save_versioned_model(model)
+    analyze_results(model, history, X_img_val, X_emb_val, y_val, version_dir)
 
-    # ניתוח ושמירת תוצאות
-    analyze_results(model, history, X_val, y_val, version_dir)
-
-    total = time.time() - t0
-    print(f"\n⏱ זמן כולל: {total:.2f} שניות ({total/60:.2f} דקות)")
-    print("\n============== הסתיים ✔ (גרסה 2) ==============\n")
+    print("\n✔ DONE\n")
 
 
 if __name__ == "__main__":
