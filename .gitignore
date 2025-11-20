@@ -2,7 +2,7 @@
 __pycache__/
 *.pyc
 git_acp.py
-TRANCE_CLASSIFIER_SPEC.txt
+trance_classifier_spec.txt
 
 
 # Virtual env
