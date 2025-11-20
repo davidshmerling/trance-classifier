@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 git_acp.py
+TRANCE_CLASSIFIER_SPEC.txt
+
 
 # Virtual env
 .venv/
