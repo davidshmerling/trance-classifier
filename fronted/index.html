@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>מסווג טראנס</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>מסווג מוזיקת טראנס</h1>
+
+        <p class="description">
+            הזן קישור של שיר מיוטיוב והמערכת תנתח את הסגנון שלו (גואה / פסיי / דארק).<br>
+            המודל פועל על בסיס CNN ו-Embeddings ומחזיר את אחוז ההתאמה לכל סגנון.
+        </p>
+
+        <div class="rules">
+            <h3>הוראות:</h3>
+            <ul>
+                <li>הכניסו קישור YouTube תקין.</li>
+                <li>אורך השיר חייב להיות בין <strong>5 דקות</strong> ל-<strong>15 דקות</strong>.</li>
+                <li>לאחר הלחיצה, המערכת תוריד את השיר, תנתח אותו ותחזיר תוצאה.</li>
+            </ul>
+        </div>
+
+        <input type="text" id="urlInput" placeholder="הדביקו כאן קישור ליוטיוב..." />
+
+        <button onclick="analyze()">נתח את השיר</button>
+
+        <div id="loading" class="hidden">מבצע ניתוח... נא להמתין</div>
+
+        <div id="result" class="hidden">
+            <h3>תוצאות הניתוח</h3>
+            <p><strong>וקטור חיזוי:</strong> <span id="vector"></span></p>
+            <p><strong>סגנון סופי:</strong> <span id="final"></span></p>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="about">
+            <img src="assets/profile.jpg" alt="Profile" class="profile-img">
+            <div>
+                <h3>אודות</h3>
+                <p>
+                    מערכת מסווגת טראנס המבוססת על למידת מכונה.<br>
+                    פותח על-ידי דוד שמרלינג.
+                </p>
+                <a href="https://github.com/YOUR_GITHUB" target="_blank">עמוד הגיטהאב שלי</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

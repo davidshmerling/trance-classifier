@@ -1,0 +1,33 @@
+=== TRAINING LOG ===
+Epoch 1:
+  accuracy:      0.3796
+  loss:          1.0941
+  val_accuracy:  0.4700
+  val_loss:      1.0600
+  lr:            0.000033
+  epoch_time:    289.89 sec
+--------------------------------------
+Epoch 2:
+  accuracy:      0.4394
+  loss:          1.0572
+  val_accuracy:  0.4714
+  val_loss:      1.0303
+  lr:            0.000067
+  epoch_time:    250.22 sec
+--------------------------------------
+Epoch 3:
+  accuracy:      0.4656
+  loss:          1.0376
+  val_accuracy:  0.4794
+  val_loss:      1.0173
+  lr:            0.000100
+  epoch_time:    233.88 sec
+--------------------------------------
+Epoch 4:
+  accuracy:      0.4815
+  loss:          1.0240
+  val_accuracy:  0.4852
+  val_loss:      1.0117
+  lr:            0.000100
+  epoch_time:    230.46 sec
+--------------------------------------

@@ -17,6 +17,7 @@ venv/
 .env
 service_account/
 service_account/*
+service_account.json
 *.json
 *.pem
 *.p12

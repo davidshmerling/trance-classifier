@@ -1,0 +1,26 @@
+==== TRANCE CLASSIFIER TRAINING LOG ====
+
+Train samples: 5535
+Val samples:   1383
+
+Class weights:
+  goa (0) -> 1.0250
+  psy (1) -> 0.9925
+  dark (2) -> 0.9835
+
+Stage 1 epochs (max): 20
+Stage 2 epochs (max): 8
+
+Stage 1 training time (sec): 5191.19
+Stage 2 training time (sec): 2538.75
+Total training time (sec):   7729.94
+
+Best val_accuracy:  0.5857
+Final val_accuracy: 0.5806
+
+History keys:
+  val_accuracy: 28 epochs
+  learning_rate: 28 epochs
+  loss: 28 epochs
+  val_loss: 28 epochs
+  accuracy: 28 epochs
