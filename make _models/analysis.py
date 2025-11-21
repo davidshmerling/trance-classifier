@@ -17,7 +17,7 @@ from tensorflow.keras.callbacks import Callback
 # ===============================================
 # קבועים גלובליים
 # ===============================================
-VALID_GENRES = ["goa", "psy", "dark"]
+VALID_GENRES = ["goa", "psy", "dark", "none"]   # כולל none לאינפוט של 4 תוויות
 
 
 # ===============================================
@@ -95,7 +95,7 @@ def write_report(y_true, y_pred, out_path: Path):
 
 
 # ===============================================
-# 🔥 מחלקת Callback — שמירת התקדמות אימון
+# 🔥 Callback — שמירת התקדמות אימון
 # ===============================================
 class TrainingProgressLogger(Callback):
     """
@@ -114,7 +114,10 @@ class TrainingProgressLogger(Callback):
     def on_epoch_end(self, epoch, logs=None):
         line = f"Epoch {epoch+1}: "
         for key, val in logs.items():
-            line += f"{key}={val:.4f}  "
+            try:
+                line += f"{key}={val:.4f}  "
+            except:
+                pass
         self.buffer.write(line + "\n")
 
     def on_train_end(self, logs=None):
@@ -123,12 +126,13 @@ class TrainingProgressLogger(Callback):
 
 
 # ===============================================
-# 🔥 פונקציה ראשית — הפקת אנליזה מלאה
+# 🔥 פונקציה ראשית — אנליזה מלאה
 # ===============================================
 def analyze_results(model,
                     history_dict,
                     X_img_val,
                     X_emb_val,
+                    X_vec4_val,
                     y_val,
                     version_dir: Path):
 
@@ -139,7 +143,14 @@ def analyze_results(model,
     # חיזוי מלא על הולידציה
     # --------------------------
     y_true = np.argmax(y_val, axis=1)
-    y_pred = np.argmax(model.predict([X_img_val, X_emb_val]), axis=1)
+
+    # 🔥 מודל עם 3 אינפוטים:
+    y_pred_probs = model.predict(
+        [X_img_val, X_emb_val, X_vec4_val],
+        verbose=0
+    )
+
+    y_pred = np.argmax(y_pred_probs, axis=1)
 
     # --------------------------
     # שמירת גרפים
@@ -167,8 +178,3 @@ def analyze_results(model,
     )
 
     print(f"✔ Analysis saved in {analysis_dir}")
-
-
-# ===============================================
-# סוף הקובץ
-# ===============================================

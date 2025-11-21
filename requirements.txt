@@ -1,0 +1,8 @@
+streamlit
+yt-dlp
+librosa
+matplotlib
+numpy
+pillow
+soundfile
+tensorflow
