@@ -1,28 +1,13 @@
-# ========================================
-# Python cache
-# ========================================
+
 __pycache__/
 *.pyc
-
-# Dev scripts
-git_acp.py
-
-# ========================================
-# Virtual environments
-# ========================================
 .venv/
 venv/
-
-# ========================================
-# OS / IDE files
-# ========================================
 .DS_Store
 .idea/
 .vscode/
 
-# ========================================
-# Secrets
-# ========================================
+
 utils/.env
 utils/service_account.json
 *credentials*
@@ -30,12 +15,9 @@ utils/service_account.json
 *.pem
 *.p12
 
-# ========================================
-# Audio (heavy files)
-# ========================================
+
 *.mp3
-*.wav
-*.flac
+
 
 # ========================================
 # TRACKS — show only directory structure, ignore files
@@ -78,21 +60,12 @@ make_models/models/**/*.tflite
 
 !make_models/models/latest.h5
 
-# ========================================
-# Images — ignore globally except analysis/
-# ========================================
-*.png
-*.jpg
-*.jpeg
-
-# Allow analysis PNGs ONLY
-!make_models/models/**/analysis/*.png
-
 # Analysis Text Reports — allow
 !make_models/models/**/analysis/*.txt
 
-# ========================================
-# TEMP FOLDERS
-# ========================================
-tmp/
-tmp_test/
+# Dev scripts
+git_acp.py
+
+# allow entire folder
+!fronted/
+!fronted/**/*
