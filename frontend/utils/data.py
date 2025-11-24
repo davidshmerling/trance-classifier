@@ -3,11 +3,8 @@ from pathlib import Path
 import numpy as np
 import librosa
 from librosa.feature.rhythm import tempo
+from make_models import config
 
-try:
-    from make_models import config
-except ImportError:
-    import config
 
 
 SR = config.SR

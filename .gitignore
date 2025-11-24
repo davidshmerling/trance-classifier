@@ -67,5 +67,7 @@ make_models/models/**/*.tflite
 git_acp.py
 
 # allow entire folder
-!fronted/
-!fronted/**/*
+!frontend/
+!frontend/**/*
+
+.devcontainer/
