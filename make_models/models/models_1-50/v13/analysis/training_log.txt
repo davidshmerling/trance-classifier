@@ -1,0 +1,161 @@
+=== TRAINING LOG ===
+Epoch 1:
+  accuracy:      0.3879
+  loss:          1.1154
+  val_accuracy:  0.4577
+  val_loss:      1.0681
+  lr:            0.000033
+  epoch_time:    12.65 sec
+--------------------------------------
+Epoch 2:
+  accuracy:      0.4694
+  loss:          1.0567
+  val_accuracy:  0.4628
+  val_loss:      1.0289
+  lr:            0.000067
+  epoch_time:    4.50 sec
+--------------------------------------
+Epoch 3:
+  accuracy:      0.4817
+  loss:          1.0227
+  val_accuracy:  0.4801
+  val_loss:      1.0099
+  lr:            0.000100
+  epoch_time:    3.72 sec
+--------------------------------------
+Epoch 4:
+  accuracy:      0.4974
+  loss:          1.0035
+  val_accuracy:  0.4866
+  val_loss:      0.9922
+  lr:            0.000100
+  epoch_time:    3.37 sec
+--------------------------------------
+Epoch 5:
+  accuracy:      0.5183
+  loss:          0.9830
+  val_accuracy:  0.5286
+  val_loss:      0.9689
+  lr:            0.000099
+  epoch_time:    3.49 sec
+--------------------------------------
+Epoch 6:
+  accuracy:      0.5400
+  loss:          0.9653
+  val_accuracy:  0.5430
+  val_loss:      0.9506
+  lr:            0.000097
+  epoch_time:    3.83 sec
+--------------------------------------
+Epoch 7:
+  accuracy:      0.5471
+  loss:          0.9494
+  val_accuracy:  0.5734
+  val_loss:      0.9320
+  lr:            0.000093
+  epoch_time:    4.49 sec
+--------------------------------------
+Epoch 8:
+  accuracy:      0.5678
+  loss:          0.9328
+  val_accuracy:  0.5785
+  val_loss:      0.9224
+  lr:            0.000087
+  epoch_time:    3.74 sec
+--------------------------------------
+Epoch 9:
+  accuracy:      0.5801
+  loss:          0.9163
+  val_accuracy:  0.5813
+  val_loss:      0.9108
+  lr:            0.000080
+  epoch_time:    3.71 sec
+--------------------------------------
+Epoch 10:
+  accuracy:      0.5843
+  loss:          0.9019
+  val_accuracy:  0.5958
+  val_loss:      0.9015
+  lr:            0.000073
+  epoch_time:    4.41 sec
+--------------------------------------
+Epoch 11:
+  accuracy:      0.5879
+  loss:          0.8928
+  val_accuracy:  0.5915
+  val_loss:      0.8976
+  lr:            0.000064
+  epoch_time:    3.90 sec
+--------------------------------------
+Epoch 12:
+  accuracy:      0.5982
+  loss:          0.8867
+  val_accuracy:  0.6095
+  val_loss:      0.8872
+  lr:            0.000055
+  epoch_time:    3.32 sec
+--------------------------------------
+Epoch 13:
+  accuracy:      0.6022
+  loss:          0.8792
+  val_accuracy:  0.6081
+  val_loss:      0.8803
+  lr:            0.000046
+  epoch_time:    3.06 sec
+--------------------------------------
+Epoch 14:
+  accuracy:      0.5951
+  loss:          0.8767
+  val_accuracy:  0.6110
+  val_loss:      0.8786
+  lr:            0.000037
+  epoch_time:    3.87 sec
+--------------------------------------
+Epoch 15:
+  accuracy:      0.6094
+  loss:          0.8694
+  val_accuracy:  0.6153
+  val_loss:      0.8778
+  lr:            0.000028
+  epoch_time:    3.54 sec
+--------------------------------------
+Epoch 16:
+  accuracy:      0.6164
+  loss:          0.8612
+  val_accuracy:  0.6182
+  val_loss:      0.8750
+  lr:            0.000021
+  epoch_time:    3.01 sec
+--------------------------------------
+Epoch 17:
+  accuracy:      0.6164
+  loss:          0.8598
+  val_accuracy:  0.6124
+  val_loss:      0.8742
+  lr:            0.000014
+  epoch_time:    2.92 sec
+--------------------------------------
+Epoch 18:
+  accuracy:      0.6211
+  loss:          0.8577
+  val_accuracy:  0.6110
+  val_loss:      0.8737
+  lr:            0.000008
+  epoch_time:    2.95 sec
+--------------------------------------
+Epoch 19:
+  accuracy:      0.6166
+  loss:          0.8554
+  val_accuracy:  0.6045
+  val_loss:      0.8731
+  lr:            0.000004
+  epoch_time:    3.20 sec
+--------------------------------------
+Epoch 20:
+  accuracy:      0.6170
+  loss:          0.8542
+  val_accuracy:  0.6067
+  val_loss:      0.8731
+  lr:            0.000002
+  epoch_time:    2.66 sec
+--------------------------------------

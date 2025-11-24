@@ -1,48 +1,73 @@
-# Python
+# ========================================
+# Python cache
+# ========================================
 __pycache__/
 *.pyc
+
+# Dev scripts
 git_acp.py
 
-
-# Virtual env
+# ========================================
+# Virtual environments
+# ========================================
 .venv/
 venv/
 
-# OS / IDE
+# ========================================
+# OS / IDE files
+# ========================================
 .DS_Store
 .idea/
 .vscode/
 
-# Do not upload secrets
-.env
-service_account/
-service_account/*
-service_account.json
-*.json
+# ========================================
+# Secrets
+# ========================================
+utils/.env
+utils/service_account.json
+*credentials*
+*service*account*
 *.pem
 *.p12
-*service*account*
-*google*credentials*
 
-# Audio + Images
+# ========================================
+# Audio (heavy files)
+# ========================================
 *.mp3
 *.wav
-*.png
-*.jpg
-*.jpeg
+*.flac
 
-# Generated data
+# ========================================
+# Data folders (do not upload)
+# ========================================
 tracks/
 data/
 data_cache/
 tmp/
 tmp_test/
 
-# Models
-models/v*/
-models/best_model_tmp.h5
-models/*.bak
-models/*.tmp
+# ========================================
+# MODELS — ignore ALL models
+# ========================================
+make_models/models/**/*.h5
+make_models/models/**/*.keras
+make_models/models/**/*.tflite
 
-# Keep latest.h5 only
-!models/latest.h5
+# But allow latest.h5 (override)
+!make_models/models/latest.h5
+
+# ========================================
+# Images — ignore globally
+# ========================================
+*.png
+*.jpg
+*.jpeg
+
+# Allow analysis PNGs ONLY
+!make_models/models/**/analysis/*.png
+
+# ========================================
+# Analysis Text Reports — allow
+# ========================================
+!make_models/models/**/analysis/*.txt
+

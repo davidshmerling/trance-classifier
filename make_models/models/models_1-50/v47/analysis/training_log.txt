@@ -1,0 +1,161 @@
+=== TRAINING LOG ===
+Epoch 1:
+  accuracy:     0.4247
+  loss:         1.0697
+  val_accuracy: 0.5101
+  val_loss:     1.0012
+  lr:           0.000033
+  time:         9.40 sec
+--------------------------------------
+Epoch 2:
+  accuracy:     0.4912
+  loss:         1.0144
+  val_accuracy: 0.5456
+  val_loss:     0.9749
+  lr:           0.000067
+  time:         3.48 sec
+--------------------------------------
+Epoch 3:
+  accuracy:     0.5088
+  loss:         0.9922
+  val_accuracy: 0.5586
+  val_loss:     0.9543
+  lr:           0.000100
+  time:         3.60 sec
+--------------------------------------
+Epoch 4:
+  accuracy:     0.5265
+  loss:         0.9733
+  val_accuracy: 0.5485
+  val_loss:     0.9433
+  lr:           0.000100
+  time:         3.34 sec
+--------------------------------------
+Epoch 5:
+  accuracy:     0.5299
+  loss:         0.9651
+  val_accuracy: 0.5579
+  val_loss:     0.9334
+  lr:           0.000099
+  time:         3.46 sec
+--------------------------------------
+Epoch 6:
+  accuracy:     0.5435
+  loss:         0.9462
+  val_accuracy: 0.5753
+  val_loss:     0.9248
+  lr:           0.000097
+  time:         3.42 sec
+--------------------------------------
+Epoch 7:
+  accuracy:     0.5534
+  loss:         0.9361
+  val_accuracy: 0.5695
+  val_loss:     0.9203
+  lr:           0.000093
+  time:         5.98 sec
+--------------------------------------
+Epoch 8:
+  accuracy:     0.5612
+  loss:         0.9301
+  val_accuracy: 0.5658
+  val_loss:     0.9220
+  lr:           0.000087
+  time:         6.10 sec
+--------------------------------------
+Epoch 9:
+  accuracy:     0.5701
+  loss:         0.9241
+  val_accuracy: 0.5854
+  val_loss:     0.9138
+  lr:           0.000080
+  time:         6.00 sec
+--------------------------------------
+Epoch 10:
+  accuracy:     0.5587
+  loss:         0.9228
+  val_accuracy: 0.5622
+  val_loss:     0.9195
+  lr:           0.000073
+  time:         9.46 sec
+--------------------------------------
+Epoch 11:
+  accuracy:     0.5737
+  loss:         0.9211
+  val_accuracy: 0.5861
+  val_loss:     0.9164
+  lr:           0.000064
+  time:         7.10 sec
+--------------------------------------
+Epoch 12:
+  accuracy:     0.5710
+  loss:         0.9094
+  val_accuracy: 0.5825
+  val_loss:     0.9075
+  lr:           0.000055
+  time:         7.50 sec
+--------------------------------------
+Epoch 13:
+  accuracy:     0.5811
+  loss:         0.9071
+  val_accuracy: 0.5904
+  val_loss:     0.9091
+  lr:           0.000046
+  time:         6.56 sec
+--------------------------------------
+Epoch 14:
+  accuracy:     0.5751
+  loss:         0.9075
+  val_accuracy: 0.5818
+  val_loss:     0.9036
+  lr:           0.000037
+  time:         7.07 sec
+--------------------------------------
+Epoch 15:
+  accuracy:     0.5710
+  loss:         0.9048
+  val_accuracy: 0.5839
+  val_loss:     0.9023
+  lr:           0.000028
+  time:         6.53 sec
+--------------------------------------
+Epoch 16:
+  accuracy:     0.5732
+  loss:         0.9017
+  val_accuracy: 0.5847
+  val_loss:     0.8979
+  lr:           0.000021
+  time:         7.36 sec
+--------------------------------------
+Epoch 17:
+  accuracy:     0.5833
+  loss:         0.8965
+  val_accuracy: 0.5753
+  val_loss:     0.9108
+  lr:           0.000014
+  time:         6.87 sec
+--------------------------------------
+Epoch 18:
+  accuracy:     0.5858
+  loss:         0.8952
+  val_accuracy: 0.5868
+  val_loss:     0.9014
+  lr:           0.000008
+  time:         6.82 sec
+--------------------------------------
+Epoch 19:
+  accuracy:     0.5914
+  loss:         0.8944
+  val_accuracy: 0.5832
+  val_loss:     0.8991
+  lr:           0.000004
+  time:         6.84 sec
+--------------------------------------
+Epoch 20:
+  accuracy:     0.5891
+  loss:         0.8926
+  val_accuracy: 0.5839
+  val_loss:     0.8986
+  lr:           0.000002
+  time:         6.34 sec
+--------------------------------------
