@@ -1,0 +1,4 @@
+=== Gradient Sensitivity ===
+Image importance:     0.000001
+Embedding importance: 0.000102
+Meta importance:      0.059726

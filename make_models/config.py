@@ -9,14 +9,13 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
 TRACKS_DIR = ROOT_DIR / "tracks"
 MODELS_DIR = ROOT_DIR /"make_models"/ "models"
-LOGS_DIR = ROOT_DIR / "logs"
 CACHE_SUBDIR = "cache"
 CACHE_DIR = DATA_DIR / CACHE_SUBDIR
 
 LATEST_MODEL_NAME = "latest.h5"
 
 # יצירת תיקיות במידה ולא קיימות
-for p in [DATA_DIR, MODELS_DIR, CACHE_DIR, LOGS_DIR]:
+for p in [DATA_DIR, MODELS_DIR, CACHE_DIR]:
     p.mkdir(parents=True, exist_ok=True)
 
 # ============================================================
@@ -83,7 +82,7 @@ EMBEDDING_POOLING = "flatten"     # אפשר גם "mean" / "max"
 # 📊 4. META FEATURES
 # =============================================================================
 USE_META = True
-META_SCALE = 0.001
+META_SCALE = 0.3
 META_FEATURE_NAMES = ["BPM", "Key", "Energy", "Flatness"]
 META_VECTOR_LENGTH = len(META_FEATURE_NAMES)
 META_SCALER_TYPE = "standard"      # "standard" | "minmax" | None
@@ -169,7 +168,7 @@ COMBINED_HEAD_CONFIG = {
 # ============================================================
 # 📈 6. TRAINING
 # ============================================================
-EPOCHS = 20
+EPOCHS = 30
 BATCH_SIZE = 32
 VAL_SPLIT = 0.20
 SHUFFLE_DATA = True
@@ -190,8 +189,6 @@ np.random.seed(SEED)
 ENABLE_CONFUSION_MATRIX = True
 ENABLE_TRAIN_PLOTS = True
 ENABLE_GRADIENT_SENSITIVITY = True
-GRADIENT_SAMPLES = 64
 
 SAVE_REPORT = True
 SAVE_INPUT_IMPORTANCE = True
-SAVE_TIME_PER_EPOCH = True

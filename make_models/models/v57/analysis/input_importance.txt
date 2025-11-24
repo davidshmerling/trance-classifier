@@ -1,0 +1,3 @@
+Embedding: 0.000019
+Meta:      0.032390
+Conclusion: Meta is more influential.

@@ -4,8 +4,12 @@ import numpy as np
 import tensorflow as tf
 from pathlib import Path
 from sklearn.utils.class_weight import compute_class_weight
+import inspect
+import config
 
-# 📌 שימוש בקונפיג בלבד
+# ------------------------------------------------------------
+# ⚙️ טעינת קונפיג
+# ------------------------------------------------------------
 from config import (
     MODELS_DIR,
     LATEST_MODEL_NAME,
@@ -18,9 +22,10 @@ from config import (
 
 
 # ============================================================
-# 📁 1️⃣ יצירת תיקיית מודל חדש (v1, v2, ...)
+# 📁 1️⃣ יצירת תיקיית מודל חדש (v1, v2, v3 ...)
 # ============================================================
 def create_new_version_dir():
+    """יוצר תיקיית גרסה חדשה בתוך MODELS_DIR."""
     Path(MODELS_DIR).mkdir(exist_ok=True)
 
     versions = [
@@ -41,17 +46,22 @@ def create_new_version_dir():
 # 💾 2️⃣ שמירת המודל הסופי
 # ============================================================
 def save_final_model(model, version_dir):
+    """שומר את המודל בתיקיית הגרסה ומעדכן את latest.h5."""
     out_path = version_dir / "model.h5"
     model.save(out_path)
+
     shutil.copy(out_path, Path(MODELS_DIR) / LATEST_MODEL_NAME)
+
     print(f"✔ Final model saved → {out_path}")
     print(f"✔ Updated latest model → {LATEST_MODEL_NAME}")
     return out_path
+
 
 # ============================================================
 # ⚖️ 3️⃣ חישוב Class Weights
 # ============================================================
 def compute_balanced_class_weights(y_idx_train):
+    """מחשב class weights לפי התפלגות y."""
     cw = compute_class_weight(
         class_weight=CLASS_WEIGHT_MODE,
         classes=np.unique(y_idx_train),
@@ -63,15 +73,20 @@ def compute_balanced_class_weights(y_idx_train):
 
 
 # ============================================================
-# 📉 4️⃣ Learning Rate Scheduler
+# 📉 4️⃣ Learning Rate Scheduler עם Warmup + Cosine Decay
 # ============================================================
 def cosine_warmup_scheduler():
+    """מחזיר callback ללמידת קצב (LR) עם warmup ו־cosine decay."""
+
     def scheduler(epoch, lr):
+        # Warmup
         if epoch < WARMUP_EPOCHS:
             return INIT_LR * (epoch + 1) / WARMUP_EPOCHS
 
+        # Cosine decay
         progress = (epoch - WARMUP_EPOCHS) / max(1, EPOCHS - WARMUP_EPOCHS)
         cosine_decay = 0.5 * (1 + np.cos(np.pi * progress))
+
         return MIN_LR + (INIT_LR - MIN_LR) * cosine_decay
 
     print("📈 Using Cosine Warmup Scheduler")
@@ -79,9 +94,11 @@ def cosine_warmup_scheduler():
 
 
 # ============================================================
-# 📝 5️⃣ Callbacks – שמירת לוג לכל אפוק
+# 📝 5️⃣ Callback – כתיבת לוג לכל אפוק
 # ============================================================
 class TrainingLoggerCallback(tf.keras.callbacks.Callback):
+    """שומר לוג של האימון: דיוק, הפסד, זמן, LR."""
+
     def __init__(self, log_path):
         super().__init__()
         self.log_path = log_path
@@ -100,7 +117,7 @@ class TrainingLoggerCallback(tf.keras.callbacks.Callback):
 
         with open(self.log_path, "a", encoding="utf-8") as f:
             f.write(
-                f"Epoch {epoch+1}:\n"
+                f"Epoch {epoch + 1}:\n"
                 f"  accuracy:     {logs.get('accuracy', 0):.4f}\n"
                 f"  loss:         {logs.get('loss', 0):.4f}\n"
                 f"  val_accuracy: {logs.get('val_accuracy', 0):.4f}\n"
@@ -110,17 +127,21 @@ class TrainingLoggerCallback(tf.keras.callbacks.Callback):
                 "--------------------------------------\n"
             )
 
-        print(f"📝 Logged epoch {epoch+1}")
+        print(f"📝 Logged epoch {epoch + 1}")
 
 
-
-
-from pathlib import Path
-import inspect
-import config
-
+# ============================================================
+# 🧾 6️⃣ שמירת צילום קונפיג בתוך תיקיית analysis
+# ============================================================
 def save_config_snapshot(version_dir):
+    """שומר את קובץ config.txt בתוך analysis של גרסה."""
     config_text = inspect.getsource(config)
-    with open(version_dir / "config.txt", "w", encoding="utf-8") as f:
+
+    analysis_dir = version_dir / "analysis"
+    analysis_dir.mkdir(parents=True, exist_ok=True)
+
+    out_file = analysis_dir / "config.txt"
+    with open(out_file, "w", encoding="utf-8") as f:
         f.write(config_text)
-    print(f"📎 Saved config snapshot → {version_dir / 'config_snapshot.txt'}")
+
+    print(f"📎 Saved config snapshot → {out_file}")

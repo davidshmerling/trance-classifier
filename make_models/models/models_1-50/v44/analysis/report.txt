@@ -1,9 +1,0 @@
-              precision    recall  f1-score   support
-
-         goa      0.588     0.486     0.533       479
-         psy      0.576     0.659     0.615       458
-        dark      0.723     0.751     0.736       445
-
-    accuracy                          0.629      1382
-   macro avg      0.629     0.632     0.628      1382
-weighted avg      0.628     0.629     0.626      1382

@@ -1,2 +1,0 @@
-Top embedding index by |IG|: 26
-Top meta flat index by |IG|: 0

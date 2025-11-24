@@ -38,45 +38,48 @@ utils/service_account.json
 *.flac
 
 # ========================================
-# Data folders (do not upload)
+# TRACKS — show only directory structure, ignore files
 # ========================================
+
+# Ignore everything in tracks
+tracks/**
+
 # Allow genre folders
+!tracks/
 !tracks/goa/
 !tracks/psy/
 !tracks/dark/
 
-# Allow artist folders inside each genre
+# Allow artist folders (directories only)
 !tracks/goa/*/
 !tracks/psy/*/
 !tracks/dark/*/
 
-# Ignore every file inside them
-tracks/goa/*/*
-tracks/psy/*/*
-tracks/dark/*/*
+# ========================================
+# DATA — show only directory structure, ignore files
+# ========================================
 
+# Ignore everything inside data
+data/**
 
-data/*
+# Allow main data folder + subfolders
+!data/
 !data/goa/
 !data/psy/
 !data/dark/
 !data/cache/
-data/*/**
-tmp/
-tmp_test/
 
 # ========================================
-# MODELS — ignore ALL models
+# MODELS — ignore ALL model files, allow only latest.h5
 # ========================================
 make_models/models/**/*.h5
 make_models/models/**/*.keras
 make_models/models/**/*.tflite
 
-# But allow latest.h5 (override)
 !make_models/models/latest.h5
 
 # ========================================
-# Images — ignore globally
+# Images — ignore globally except analysis/
 # ========================================
 *.png
 *.jpg
@@ -85,8 +88,11 @@ make_models/models/**/*.tflite
 # Allow analysis PNGs ONLY
 !make_models/models/**/analysis/*.png
 
-# ========================================
 # Analysis Text Reports — allow
-# ========================================
 !make_models/models/**/analysis/*.txt
 
+# ========================================
+# TEMP FOLDERS
+# ========================================
+tmp/
+tmp_test/

@@ -1,0 +1,241 @@
+=== TRAINING LOG ===
+Epoch 1:
+  accuracy:      0.3749
+  loss:          91.6830
+  val_accuracy:  0.4197
+  val_loss:      18.2487
+  lr:            0.000033
+  epoch_time:    1.70 sec
+--------------------------------------
+Epoch 2:
+  accuracy:      0.3889
+  loss:          42.4949
+  val_accuracy:  0.4520
+  val_loss:      8.6612
+  lr:            0.000067
+  epoch_time:    0.53 sec
+--------------------------------------
+Epoch 3:
+  accuracy:      0.3767
+  loss:          21.9558
+  val_accuracy:  0.3951
+  val_loss:      4.2157
+  lr:            0.000100
+  epoch_time:    0.53 sec
+--------------------------------------
+Epoch 4:
+  accuracy:      0.3724
+  loss:          10.9673
+  val_accuracy:  0.3647
+  val_loss:      2.1985
+  lr:            0.000100
+  epoch_time:    0.67 sec
+--------------------------------------
+Epoch 5:
+  accuracy:      0.3621
+  loss:          5.1405
+  val_accuracy:  0.3806
+  val_loss:      1.2857
+  lr:            0.000100
+  epoch_time:    0.52 sec
+--------------------------------------
+Epoch 6:
+  accuracy:      0.3650
+  loss:          2.7008
+  val_accuracy:  0.3531
+  val_loss:      1.1504
+  lr:            0.000099
+  epoch_time:    0.52 sec
+--------------------------------------
+Epoch 7:
+  accuracy:      0.3576
+  loss:          2.0069
+  val_accuracy:  0.3348
+  val_loss:      1.0982
+  lr:            0.000097
+  epoch_time:    0.52 sec
+--------------------------------------
+Epoch 8:
+  accuracy:      0.3518
+  loss:          1.6131
+  val_accuracy:  0.3348
+  val_loss:      1.0912
+  lr:            0.000095
+  epoch_time:    0.53 sec
+--------------------------------------
+Epoch 9:
+  accuracy:      0.3508
+  loss:          1.4277
+  val_accuracy:  0.3401
+  val_loss:      1.0860
+  lr:            0.000092
+  epoch_time:    0.53 sec
+--------------------------------------
+Epoch 10:
+  accuracy:      0.3630
+  loss:          1.3495
+  val_accuracy:  0.3960
+  val_loss:      1.0830
+  lr:            0.000088
+  epoch_time:    0.51 sec
+--------------------------------------
+Epoch 11:
+  accuracy:      0.3948
+  loss:          1.2687
+  val_accuracy:  0.3888
+  val_loss:      1.0791
+  lr:            0.000084
+  epoch_time:    0.55 sec
+--------------------------------------
+Epoch 12:
+  accuracy:      0.4257
+  loss:          1.2028
+  val_accuracy:  0.4100
+  val_loss:      1.0745
+  lr:            0.000080
+  epoch_time:    0.50 sec
+--------------------------------------
+Epoch 13:
+  accuracy:      0.4374
+  loss:          1.1922
+  val_accuracy:  0.4279
+  val_loss:      1.0696
+  lr:            0.000075
+  epoch_time:    0.51 sec
+--------------------------------------
+Epoch 14:
+  accuracy:      0.4590
+  loss:          1.1949
+  val_accuracy:  0.4510
+  val_loss:      1.0650
+  lr:            0.000070
+  epoch_time:    0.53 sec
+--------------------------------------
+Epoch 15:
+  accuracy:      0.4686
+  loss:          1.1426
+  val_accuracy:  0.4592
+  val_loss:      1.0608
+  lr:            0.000065
+  epoch_time:    0.52 sec
+--------------------------------------
+Epoch 16:
+  accuracy:      0.4779
+  loss:          1.1566
+  val_accuracy:  0.4670
+  val_loss:      1.0568
+  lr:            0.000059
+  epoch_time:    0.48 sec
+--------------------------------------
+Epoch 17:
+  accuracy:      0.4831
+  loss:          1.1220
+  val_accuracy:  0.4776
+  val_loss:      1.0530
+  lr:            0.000053
+  epoch_time:    0.50 sec
+--------------------------------------
+Epoch 18:
+  accuracy:      0.4893
+  loss:          1.0994
+  val_accuracy:  0.4858
+  val_loss:      1.0494
+  lr:            0.000048
+  epoch_time:    0.50 sec
+--------------------------------------
+Epoch 19:
+  accuracy:      0.4983
+  loss:          1.1116
+  val_accuracy:  0.4896
+  val_loss:      1.0463
+  lr:            0.000042
+  epoch_time:    0.50 sec
+--------------------------------------
+Epoch 20:
+  accuracy:      0.4989
+  loss:          1.0824
+  val_accuracy:  0.4877
+  val_loss:      1.0436
+  lr:            0.000036
+  epoch_time:    0.50 sec
+--------------------------------------
+Epoch 21:
+  accuracy:      0.4944
+  loss:          1.0825
+  val_accuracy:  0.4930
+  val_loss:      1.0412
+  lr:            0.000031
+  epoch_time:    0.51 sec
+--------------------------------------
+Epoch 22:
+  accuracy:      0.4997
+  loss:          1.0781
+  val_accuracy:  0.4916
+  val_loss:      1.0392
+  lr:            0.000026
+  epoch_time:    0.50 sec
+--------------------------------------
+Epoch 23:
+  accuracy:      0.5034
+  loss:          1.0774
+  val_accuracy:  0.4901
+  val_loss:      1.0377
+  lr:            0.000021
+  epoch_time:    0.48 sec
+--------------------------------------
+Epoch 24:
+  accuracy:      0.4983
+  loss:          1.0696
+  val_accuracy:  0.4916
+  val_loss:      1.0364
+  lr:            0.000017
+  epoch_time:    0.49 sec
+--------------------------------------
+Epoch 25:
+  accuracy:      0.4996
+  loss:          1.0734
+  val_accuracy:  0.4945
+  val_loss:      1.0354
+  lr:            0.000013
+  epoch_time:    0.49 sec
+--------------------------------------
+Epoch 26:
+  accuracy:      0.5060
+  loss:          1.0722
+  val_accuracy:  0.4954
+  val_loss:      1.0347
+  lr:            0.000009
+  epoch_time:    0.52 sec
+--------------------------------------
+Epoch 27:
+  accuracy:      0.5066
+  loss:          1.0569
+  val_accuracy:  0.4978
+  val_loss:      1.0342
+  lr:            0.000006
+  epoch_time:    0.50 sec
+--------------------------------------
+Epoch 28:
+  accuracy:      0.5049
+  loss:          1.0546
+  val_accuracy:  0.4983
+  val_loss:      1.0339
+  lr:            0.000004
+  epoch_time:    0.45 sec
+--------------------------------------
+Epoch 29:
+  accuracy:      0.5049
+  loss:          1.0605
+  val_accuracy:  0.4983
+  val_loss:      1.0337
+  lr:            0.000002
+  epoch_time:    0.77 sec
+--------------------------------------
+Epoch 30:
+  accuracy:      0.5032
+  loss:          1.0515
+  val_accuracy:  0.4983
+  val_loss:      1.0336
+  lr:            0.000001
+  epoch_time:    0.58 sec
+--------------------------------------
