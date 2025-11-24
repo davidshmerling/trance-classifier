@@ -1,5 +1,5 @@
 import streamlit as st
-from frontend.utils.predict import predict_from_youtube_url
+from utils.predict import predict_from_youtube_url
 
 st.set_page_config(
     page_title="TranceClassifier",
