@@ -40,9 +40,28 @@ utils/service_account.json
 # ========================================
 # Data folders (do not upload)
 # ========================================
-tracks/
-data/
-data_cache/
+# Allow genre folders
+!tracks/goa/
+!tracks/psy/
+!tracks/dark/
+
+# Allow artist folders inside each genre
+!tracks/goa/*/
+!tracks/psy/*/
+!tracks/dark/*/
+
+# Ignore every file inside them
+tracks/goa/*/*
+tracks/psy/*/*
+tracks/dark/*/*
+
+
+data/*
+!data/goa/
+!data/psy/
+!data/dark/
+!data/cache/
+data/*/**
 tmp/
 tmp_test/
 
